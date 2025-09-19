@@ -13,10 +13,11 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(45deg, #E8F5F5, #F0F8F8, #FFFFFF);
+            background: linear-gradient(45deg, #F5F5F5, #E0E0E0, #FDFDFD); /* Monokrom cerah */
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
             min-height: 100vh;
+            color: #333; /* Warna teks default */
         }
 
         @keyframes gradientShift {
@@ -61,12 +62,12 @@
         }
 
         .slide-photo {
-            width: clamp(200px, 60vw, 300px); /* Disesuaikan untuk fleksibilitas */
-            height: auto; /* Penting untuk menjaga rasio aspek */
+            width: clamp(200px, 60vw, 300px);
+            height: auto;
             border-radius: 50%;
             margin: 0 auto 2rem;
-            border: 8px solid #40E0D0;
-            box-shadow: 0 8px 20px rgba(64, 224, 208, 0.4);
+            border: 8px solid #A0D8D0; /* Mint pemanis */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Shadow lebih lembut */
             object-fit: cover;
             animation: photoAppear 1s ease-out;
             max-width: 100%;
@@ -74,8 +75,8 @@
 
         .slide-photo.rectangle {
             border-radius: 20px;
-            width: clamp(250px, 80vw, 400px); /* Disesuaikan untuk fleksibilitas */
-            height: auto; /* Penting untuk menjaga rasio aspek */
+            width: clamp(250px, 80vw, 400px);
+            height: auto;
         }
 
         @keyframes photoAppear {
@@ -90,35 +91,29 @@
         }
 
         .slide-title {
-            font-size: clamp(2rem, 8vw, 3rem); /* Ukuran font fleksibel */
+            font-size: clamp(2rem, 8vw, 3rem);
             color: #2C2C2C;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: titlePulse 2s ease-in-out infinite;
-        }
-
-        @keyframes titlePulse {
-            0% { transform: scale(1); color: #2C2C2C; }
-            50% { transform: scale(1.05); color: #40E0D0; }
-            100% { transform: scale(1); color: #2C2C2C; }
+            text-shadow: none; /* Hilangkan shadow teks */
+            animation: none; /* Hilangkan animasi pulse pada title */
         }
 
         .slide-text {
-            font-size: clamp(1rem, 4vw, 1.5rem); /* Ukuran font fleksibel */
+            font-size: clamp(1rem, 4vw, 1.5rem);
             color: #4A4A4A;
             margin: 1rem 0;
             line-height: 1.6;
         }
 
         .slide-subtitle {
-            font-size: clamp(1.5rem, 6vw, 2rem); /* Ukuran font fleksibel */
-            color: #40E0D0;
+            font-size: clamp(1.5rem, 6vw, 2rem);
+            color: #666; /* Warna subtitle lebih lembut */
             margin: 1rem 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: none; /* Hilangkan shadow teks */
         }
 
         .next-btn {
-            background: linear-gradient(135deg, #40E0D0, #20B2AA);
+            background: #40E0D0; /* Warna mint solid */
             color: white;
             border: none;
             padding: 15px 40px;
@@ -126,15 +121,15 @@
             border-radius: 50px;
             cursor: pointer;
             margin-top: 2rem;
-            box-shadow: 0 4px 15px rgba(64, 224, 208, 0.3);
+            box-shadow: 0 4px 10px rgba(64, 224, 208, 0.3); /* Shadow mint */
             transition: all 0.3s ease;
             font-family: inherit;
         }
 
         .next-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(64, 224, 208, 0.5);
-            background: linear-gradient(135deg, #20B2AA, #40E0D0);
+            box-shadow: 0 6px 15px rgba(64, 224, 208, 0.5);
+            background: #20B2AA; /* Mint yang sedikit lebih gelap saat hover */
         }
 
         .progress-bar {
@@ -142,7 +137,7 @@
             top: 0;
             left: 0;
             height: 4px;
-            background: linear-gradient(90deg, #40E0D0, #20B2AA);
+            background: #A0D8D0; /* Mint pemanis */
             transition: width 0.3s ease;
             z-index: 1000;
         }
@@ -151,13 +146,13 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             padding: 10px 20px;
             border-radius: 25px;
-            color: #2C2C2C;
+            color: #333;
             font-weight: bold;
             z-index: 1000;
-            border: 2px solid #40E0D0;
+            border: 1px solid #CCC; /* Border monokrom */
         }
 
         .hearts-decoration {
@@ -166,6 +161,7 @@
             animation: float 3s ease-in-out infinite;
             opacity: 0.7;
             z-index: 999;
+            color: #A0D8D0; /* Warna mint untuk hati */
         }
 
         @keyframes float {
@@ -183,41 +179,41 @@
             padding: 2rem;
             border-radius: 20px;
             margin: 2rem 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            border: 2px solid #E0F7F7;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08); /* Shadow lebih lembut */
+            border: 1px solid #E0E0E0; /* Border monokrom */
         }
 
         .timer {
             display: flex;
             justify-content: center;
-            gap: 1rem; /* Mengurangi gap untuk layar kecil */
+            gap: 1rem;
             margin: 2rem 0;
-            flex-wrap: wrap; /* Memungkinkan wrap jika layar terlalu kecil */
+            flex-wrap: wrap;
         }
 
         .timer-unit {
-            background: linear-gradient(135deg, #40E0D0, #20B2AA);
+            background: #40E0D0; /* Warna mint solid */
             padding: 1rem;
             border-radius: 15px;
             text-align: center;
             color: white;
-            min-width: 60px; /* Mengurangi lebar minimum */
-            box-shadow: 0 4px 15px rgba(64, 224, 208, 0.2);
+            min-width: 60px;
+            box-shadow: 0 4px 10px rgba(64, 224, 208, 0.2);
         }
 
         .timer-number {
-            font-size: 1.5rem; /* Mengurangi ukuran font */
+            font-size: 1.5rem;
             font-weight: bold;
             display: block;
         }
 
         .special-message {
-            font-size: clamp(1.5rem, 6vw, 2.5rem); /* Ukuran font fleksibel */
-            color: #2C2C2C;
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            color: #333;
             font-weight: bold;
             animation: bounce 2s infinite;
             display: none;
-            text-shadow: 2px 2px 4px rgba(64, 224, 208, 0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Shadow monokrom lembut */
         }
 
         @keyframes bounce {
@@ -228,7 +224,7 @@
 
         .editable-content {
             background: rgba(255, 255, 255, 0.9);
-            border: 2px dashed #40E0D0;
+            border: 1px dashed #A0D8D0; /* Mint pemanis */
             border-radius: 15px;
             padding: 1.5rem;
             margin: 2rem 0;
@@ -236,7 +232,7 @@
             min-height: 100px;
             text-align: left;
             line-height: 1.6;
-            font-size: clamp(1rem, 3.5vw, 1.1rem); /* Ukuran font fleksibel */
+            font-size: clamp(1rem, 3.5vw, 1.1rem);
             white-space: pre-line;
             word-wrap: break-word;
         }
@@ -246,7 +242,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(64, 224, 208, 0.8);
+            background: rgba(0, 0, 0, 0.6); /* Warna abu gelap */
             color: white;
             padding: 10px 20px;
             border-radius: 25px;
@@ -261,7 +257,7 @@
             50% { opacity: 1; }
         }
 
-        /* --- New CSS for Intro Animation --- */
+        /* --- Intro Animation --- */
 
         .intro-slide {
             position: absolute;
@@ -269,7 +265,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #F0F8F8, #FFFFFF);
+            background: linear-gradient(45deg, #E0E0E0, #FDFDFD); /* Monokrom cerah */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -285,13 +281,13 @@
         }
 
         .intro-message {
-            font-size: clamp(1.5rem, 6vw, 2.5rem); /* Ukuran font fleksibel */
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
             font-weight: bold;
             color: #2C2C2C;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            text-shadow: none;
             overflow: hidden;
             white-space: nowrap;
-            border-right: 3px solid #40E0D0;
+            border-right: 3px solid #666; /* Border monokrom gelap */
             animation: typing 2.5s steps(20, end), blink-caret .75s step-end infinite;
         }
 
@@ -302,13 +298,13 @@
 
         @keyframes blink-caret {
             from, to { border-color: transparent }
-            50% { border-color: #40E0D0; }
+            50% { border-color: #666; } /* Warna kursor typing */
         }
 
         .loading-bar-container {
-            width: clamp(150px, 60vw, 250px); /* Ukuran fleksibel */
+            width: clamp(150px, 60vw, 250px);
             height: 8px;
-            background-color: rgba(64, 224, 208, 0.2);
+            background-color: rgba(0, 0, 0, 0.1); /* Latar loading bar monokrom */
             border-radius: 4px;
             margin-top: 2rem;
             overflow: hidden;
@@ -319,7 +315,7 @@
         .loading-bar {
             height: 100%;
             width: 0;
-            background: linear-gradient(90deg, #40E0D0, #20B2AA);
+            background: #A0D8D0; /* Mint pemanis */
             animation: load 2s 2.5s forwards;
         }
 
@@ -347,6 +343,7 @@
             font-size: 1.5rem;
             opacity: 0;
             animation: sparkle-float 3s ease-out infinite;
+            color: #A0D8D0; /* Sparkle mint */
         }
 
         @keyframes sparkle-float {
@@ -354,8 +351,18 @@
             50% { opacity: 1; }
             100% { transform: translateY(-50vh) rotate(360deg); opacity: 0; }
         }
+        
+        /* New burst animation for next button click */
+        @keyframes heartBurst {
+            0% { opacity: 1; transform: scale(0.5) translateY(0); }
+            100% { opacity: 0; transform: scale(1.5) translateY(-50px); }
+        }
 
-        /* Hilangkan media query lama karena sudah diintegrasikan dengan clamp() */
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(0); }
+            20% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh); }
+        }
     </style>
 </head>
 <body>
@@ -385,7 +392,7 @@
     <div class="slide-container">
         <div class="slide active">
             <h1 class="slide-title">3rd Month Anniversary</h1>
-            <div style="font-size: 3rem; margin: 2rem 0;">✨</div>
+            <div style="font-size: 3rem; margin: 2rem 0; color: #A0D8D0;">✨</div>
             <p class="slide-text">Welcome to our page ya, sayang</p>
             <button class="next-btn" onclick="nextSlide()">Let's go!</button>
         </div>
@@ -475,20 +482,20 @@ Every moment with you is my favorite moment, sayang. ✨</div>
 
         <div class="slide">
             <h2 class="slide-subtitle">Love Message 4 U</h2>
-<div style="background: rgba(255,255,255,0.95); padding: 2rem; border-radius: 20px; margin: 2rem 0; border: 2px solid #E0F7F7;">
-    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+<div style="background: rgba(255,255,255,0.95); padding: 2rem; border-radius: 20px; margin: 2rem 0; border: 1px solid #E0E0E0;">
+    <div style="background: #F0F0F0; padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #A0D8D0; border-radius: 10px; color: #333;">
         Three months has taught me that time with you is not counted by hours, but by the soft echoes of laughter we leave behind.
     </div>
-    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+    <div style="background: #F0F0F0; padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #A0D8D0; border-radius: 10px; color: #333;">
         Thank you for being the quiet reason my mornings feel like new poems: simple, true, and endlessly warm.
     </div>
-    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+    <div style="background: #F0F0F0; padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #A0D8D0; border-radius: 10px; color: #333;">
         I promise to keep making memories with you. Small, tender pages in the story we are careful to write together.
     </div>
-    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+    <div style="background: #F0F0F0; padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #A0D8D0; border-radius: 10px; color: #333;">
         You arrived like a gift I didn’t know I’d asked for, and every day I find a new reason to be grateful for you.
     </div>
-    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+    <div style="background: #F0F0F0; padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #A0D8D0; border-radius: 10px; color: #333;">
         I love you beyond the reach of words, in the hush between heartbeats, in the courage to keep choosing us, always.
     </div>
 </div>
@@ -520,7 +527,7 @@ Ika
             <div style="margin-top: 2rem; color: #4A4A4A; font-style: italic;">
                 Made with love by Ika | 20 September 2025
             </div>
-            <button class="next-btn" onclick="restartSlides()" style="background: linear-gradient(135deg, #2C2C2C, #4A4A4A);">
+            <button class="next-btn" onclick="restartSlides()" style="background: #333; color: white;">
                 Ulang lagi juga boleh 🔄
             </button>
         </div>
@@ -626,6 +633,7 @@ Ika
                     heart.style.zIndex = '999';
                     heart.style.pointerEvents = 'none';
                     heart.style.animation = `heartBurst 1.5s ease-out forwards`;
+                    heart.style.color = '#A0D8D0'; // Mint for burst hearts
                     
                     document.body.appendChild(heart);
                     
@@ -648,6 +656,7 @@ Ika
                     heart.style.zIndex = '999';
                     heart.style.pointerEvents = 'none';
                     heart.style.animation = `floatUp ${4 + Math.random() * 2}s ease-out forwards`;
+                    heart.style.color = '#A0D8D0'; // Mint for celebration hearts
                     
                     document.body.appendChild(heart);
                     
@@ -658,7 +667,7 @@ Ika
             }
         }
 
-        // --- New Script for Intro Animation ---
+        // --- Intro Animation ---
         function createSparkles() {
             const sparkleContainer = document.getElementById('sparkle-container');
             const emojis = ['✨', '💖', '💫'];
