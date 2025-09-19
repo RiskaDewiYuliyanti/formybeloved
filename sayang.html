@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Kesayanganku!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(45deg, #E8F5F5, #F0F8F8, #FFFFFF);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .slide-container {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+            overflow-x: hidden;
+        }
+
+        .slide {
+            display: none;
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+            animation: slideIn 0.8s ease-out;
+            width: 100%;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-photo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border: 8px solid #40E0D0;
+            box-shadow: 0 8px 20px rgba(64, 224, 208, 0.4);
+            object-fit: cover;
+            animation: photoAppear 1s ease-out;
+        }
+
+        .slide-photo.rectangle {
+            border-radius: 20px;
+            width: 400px;
+            height: 300px;
+        }
+
+        @keyframes photoAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .slide-title {
+            font-size: 3rem;
+            color: #2C2C2C;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0% { transform: scale(1); color: #2C2C2C; }
+            50% { transform: scale(1.05); color: #40E0D0; }
+            100% { transform: scale(1); color: #2C2C2C; }
+        }
+
+        .slide-text {
+            font-size: 1.5rem;
+            color: #4A4A4A;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .slide-subtitle {
+            font-size: 2rem;
+            color: #40E0D0;
+            margin: 1rem 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #40E0D0, #20B2AA);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(64, 224, 208, 0.3);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(64, 224, 208, 0.5);
+            background: linear-gradient(135deg, #20B2AA, #40E0D0);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #40E0D0, #20B2AA);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: #2C2C2C;
+            font-weight: bold;
+            z-index: 1000;
+            border: 2px solid #40E0D0;
+        }
+
+        .hearts-decoration {
+            position: fixed;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.7;
+            z-index: 999;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hearts-decoration:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .hearts-decoration:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .hearts-decoration:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; }
+        .hearts-decoration:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 1.5s; }
+
+        .countdown-display {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 2px solid #E0F7F7;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .timer-unit {
+            background: linear-gradient(135deg, #40E0D0, #20B2AA);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            min-width: 80px;
+            box-shadow: 0 4px 15px rgba(64, 224, 208, 0.2);
+        }
+
+        .timer-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .special-message {
+            font-size: 2.5rem;
+            color: #2C2C2C;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+            display: none;
+            text-shadow: 2px 2px 4px rgba(64, 224, 208, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        .editable-content {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px dashed #40E0D0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            color: #4A4A4A;
+            min-height: 100px;
+            text-align: left;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            white-space: pre-line;
+            word-wrap: break-word;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(64, 224, 208, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            z-index: 1001;
+            animation: pulse 2s infinite;
+            display: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* --- New CSS for Intro Animation --- */
+
+        .intro-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #F0F8F8, #FFFFFF);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 2000;
+            transition: opacity 1s ease-out;
+            opacity: 1;
+        }
+
+        .intro-slide.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .intro-message {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden; /* Ensures the text is not visible initially */
+            white-space: nowrap;
+            border-right: 3px solid #40E0D0; /* The blinking cursor */
+            animation: typing 2.5s steps(20, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #40E0D0; }
+        }
+
+        .loading-bar-container {
+            width: 250px;
+            height: 8px;
+            background-color: rgba(64, 224, 208, 0.2);
+            border-radius: 4px;
+            margin-top: 2rem;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 0.5s 2.5s forwards;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #40E0D0, #20B2AA);
+            animation: load 2s 2.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes load {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+
+        .sparkle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: sparkle-float 3s ease-out infinite;
+        }
+
+        @keyframes sparkle-float {
+            0% { transform: translateY(0) rotate(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-50vh) rotate(360deg); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .slide-photo {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .slide-photo.rectangle {
+                width: 300px;
+                height: 225px;
+            }
+            
+            .slide-title {
+                font-size: 2rem;
+            }
+            
+            .slide-text {
+                font-size: 1.2rem;
+            }
+            
+            .timer {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .slide {
+                padding: 1rem;
+            }
+
+            .editable-content {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .intro-message {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-slide" id="introSlide">
+        <div class="sparkle-container" id="sparkle-container"></div>
+        <div class="intro-message">Loading nih... 
+                                    Sabar ya, ganteng</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator">
+        Scroll down untuk membaca lebih banyak ↓
+    </div>
+
+    <div class="hearts-decoration">🤍</div>
+    <div class="hearts-decoration">🖤</div>
+    <div class="hearts-decoration">💚</div>
+    <div class="hearts-decoration">✨</div>
+
+    <div class="slide-container">
+        <div class="slide active">
+            <h1 class="slide-title">3rd Month Anniversary</h1>
+            <div style="font-size: 3rem; margin: 2rem 0;">✨</div>
+            <p class="slide-text">Welcome to our page ya, sayang</p>
+            <button class="next-btn" onclick="nextSlide()">Let's go!</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">Halo sayangku, Ini Ika!</h2>
+            <img src="ika.jpg" alt="Ika" class="slide-photo">
+            <p class="slide-text">Kaget kan, walaupun aku versi 2d tapi aku masih cantik banget kan?</p>
+            <p class="slide-text">Aku buat scrapbook ini buat kamu dan kita hihihi</p>
+            <button class="next-btn" onclick="nextSlide()">Lanjut yuk Sayang</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">Countdown Anniversary</h2>
+            <div class="countdown-display">
+                <div class="timer">
+                    <div class="timer-unit">
+                        <span class="timer-number" id="days">0</span>
+                        <div>Hari</div>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-number" id="hours">0</span>
+                        <div>Jam</div>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-number" id="minutes">0</span>
+                        <div>Menit</div>
+                    </div>
+                    <div class="timer-unit">
+                        <span class="timer-number" id="seconds">0</span>
+                        <div>Detik</div>
+                    </div>
+                </div>
+                <div class="special-message" id="anniversary-message">
+                    HAPPY 3 MONTHS ANNIVERSARY!
+                </div>
+            </div>
+            <button class="next-btn" onclick="nextSlide()">Yuk, Masuk!</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">Our First Meet>3<</h2>
+            <img src="us.jpg" alt="Pertama kenal" class="slide-photo rectangle">
+            <div class="editable-content">Pertama kita kenal itu, aku ingat banget kamu chat aku soal GA ya? kalau dipikir-pikir lucu banget ya, bub? Engga aku sangka pun dari awal situ, kita bisa jadi saling sayang kaya gini, sampe engga mau saling kehilangan. Bahkan, bisa dibilang kita saling cinta mati, HAHAHA.
+
+Tapi serius deh, aku tuh bener-bener bersyukur ketemu kamu. Dari yang awalnya cuma chat biasa aja, kamu share share reels, semangatin aku.. sekarang jadi orang paling penting buat aku. Kamu tuh udah jadi rumah aku, tempat aku cerita, ketawa, sampai nangis pun aku nyaman sama kamu.
+
+Aku engga tau nanti ke depannya gimana, tapi satu hal pasti sayang. Aku akan tetep pegang erat-erat kamu dan kita agar terus sama-sama sampe kamu nikahin aku, hihi. Seberat apapun.. aku yakin kita bisa, saling mengusahakan ya sayang? 
+
+Kita belajar, improve bareng-bareng. Aku pun engga sempurna, dan adanya kamu, sempurnain itu semua. Aku harap kamu merasakan sebaliknya ya. I love you more, more, even more, and more than you know, sayang.</div>
+            <button class="next-btn" onclick="nextSlide()">Next!</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">Kesayanganku</h2>
+            <img src="sayang2.jpg" alt="Pacar tersayang" class="slide-photo">
+            <div class="editable-content">Kamu tahu ga sih sayang, hal-hal apa aja yang aku suka dari kamu?
+
+Pertama, tidak lain dan tidak bukan aku suka banget sama prinsip kamu yang tegas itu. Walaupun emang banyak clash dari aku dan kamu soal kita ini itu, tapi aku dari awal selalu kagum dan suka dari prinsip kamu, karena apa? karena aku perlu dan butuh itu dari kamu. Kamu bisa bimbing aku, walaupun aku belum bisa sempurna ya sayang jadi pasangan kamu, tapi setiap hari aku selalu belajar tau sayang, bahkan sampe searching-searching juga gimana ini itunya hihi. Semoga setiap progress dari aku, terlihat ya?
+
+Terus aku suka sama gimana kamu selalu perhatian sama aku. Walaupun kamu tuh emang dari oroknya tuh didesain kulkas, cuek, kamu sama aku bisa ngeliatin manjanya jugaaa, seneng bangett. Bahkan, my first ever bucket bunga itu dari kamu, sayang. It means a lot banget, aku sampe pajang di meja biar setiap aku bangun itu aku ngeliat bucket dari cowokku. OH YA! Aku juga sampe nempelin kartu ucapan dari bubub juga yang waktu aku ulang tahun. Makasih banyak ya sayang..
+
+Yang paling aku suka, kamu tuh orangnya sabar banget sama aku sayang. Padahal kadang aku suka rewel banget kalau kangen bahkan sampe ribut, tapi syukurnya kamu dan aku bisa akhiri masalahnya. Mau seberat apapun masalah kita, setelah itu aku seneng banget makin lengket sama kamu sayang. Makasih yaa.
+
+Aku juga suka sama ambisi kamu, sayang. Kamu tuh punya mimpi dan goals yang jelas, dan aku respect banget sama usaha kamu buat ngejar semua itu. Aku bangga punya kamu yang punya visi hidup yang jelas sayang, walaupun sambil ya Allah ya Allah karna sangking beratnya, tapi kamu selalu bisa lewatin semuanya hihi.
+
+Aku juga sukaa banget karena aku tau kesukaan kita banyak yang sama, kayak matcha, sushi juga hihihi seneng banget. Nanti, first date kita bisa matcha date atau sushi date dehh!!
+
+Dan yang terakhir, aku suka sama cara kamu sayang aku. Tulus banget. Kamu bikin aku ngerasa special, bikin aku ngerasa berharga. Thank you for loving me the way you do, sayang. Maaf aku masih suka rewel cuma karena chat kamu ga ada sayangnya ke aku..:(</div>
+            <button class="next-btn" onclick="nextSlide()">Next Story</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">Our Favorite Moment</h2>
+            <img src="kitaa.png" alt="Moment favorit" class="slide-photo rectangle">
+            <div class="editable-content">Moment favorit aku sama kamu tuh setiap kita nonton film bareng, diskusi bareng sama kamu, terus sleep call heheheheheeheh. Kayaknya udah masuk ke tiap hari ya bubub? seneng banget kalau bubub call aku duluan, bubub nyariin aku minta ditemenin. Apalagi waktu bubub kerja, terus bubub tiba-tiba telpon aku, kamu mungkin ga lihat sayang. Tapi, aku bener-bener se seneng itu..
+
+Saat itu aku ngerasa, "Ya Allah, aku beneran sayang banget sama orang ini gimana ya sayang banget ya Allah." 
+
+Dari setiap moment yang kita lewatin sama-sama, aku semakin mantap ga bisa hidup tanpa kamu, aku ga bisa kalau bukan kamu. Jadi, semuanya harus sama kamu terus sayang
+
+Aku juga suka moment-moment kecil kita, kaya pas kita chat sampai lupa waktu, pas kita ngomongin masa depan kita, pas kita planning mau kemana aja kalau udah bisa ketemu, bahkan sampe agendain ootdnya samaan, warna mint! ga sabar banget buat ketemu kamu sayang!
+
+Every moment with you is my favorite moment, sayang. ✨</div>
+            <button class="next-btn" onclick="nextSlide()">Lanjut ke Pesan Cinta</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">Love Message 4 U</h2>
+<div style="background: rgba(255,255,255,0.95); padding: 2rem; border-radius: 20px; margin: 2rem 0; border: 2px solid #E0F7F7;">
+    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+        Three months has taught me that time with you is not counted by hours, but by the soft echoes of laughter we leave behind.
+    </div>
+    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+        Thank you for being the quiet reason my mornings feel like new poems: simple, true, and endlessly warm.
+    </div>
+    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+        I promise to keep making memories with you. Small, tender pages in the story we are careful to write together.
+    </div>
+    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+        You arrived like a gift I didn’t know I’d asked for, and every day I find a new reason to be grateful for you.
+    </div>
+    <div style="background: rgba(224,247,247,0.5); padding: 1.5rem; margin: 1rem 0; border-left: 5px solid #40E0D0; border-radius: 10px; color: #2C2C2C;">
+        I love you beyond the reach of words, in the hush between heartbeats, in the courage to keep choosing us, always.
+    </div>
+</div>
+
+            <button class="next-btn" onclick="nextSlide()">Last but Not Least</button>
+        </div>
+
+        <div class="slide">
+            <h2 class="slide-subtitle">💝 Secret Message buat Bubub</h2>
+            <div class="editable-content">Sayang,
+
+Happy 3 months anniversary! 
+
+Tiga bulan kenal kamu tuh rasanya kaya udah bertahun-tahun. Kamu udah jadi bagian dari hidup aku yang ga bisa dipisahin lagi. Setiap hari aku bersyukur banget bisa punya kamu di hidup aku.
+
+Aku ga pernah nyangka bakal ketemu orang yang bisa ngerti aku sedalem ini. Kamu tuh bukan cuma laki-laki yang selalu ada buat aku, tapi juga sahabat, partner, dan rumah aku. Tempat aku pulang untuk diriku ini.
+
+Maaf ya kalau selama ini aku sering rewel, suka nangis ga jelas, dan kesannya seperti selalu ngajal berantem. Aku ga pernah ada maksud seperti itu sama kamu sayang. Thank you for being so patient with me. Thank you udah mau nerima apa yang menjadi kurangnya diriku, sama semua kekurangan aku. Terima kasih sudah mau tumbuh bersama, sama aku ya, sayang.
+
+Aku berjanji akan terus belajar jadi pasangan, perempuan yang lebih baik buat kamu. Aku mau kita tumbuh bareng, improve bareng, dan saling support dalam meraih mimpi masing-masing.
+
+I love you so much, sayang. More than you'll ever know. 
+
+Semoga kita bisa celebrate anniversary yang ke-4, ke-5, dan seterusnya sampai nanti kita nikah dan tua bareng. Aamiin.
+
+Forever yours,
+Ika 
+.</div>
+            <div style="margin-top: 2rem; color: #4A4A4A; font-style: italic;">
+                Made with love by Ika | 20 September 2025
+            </div>
+            <button class="next-btn" onclick="restartSlides()" style="background: linear-gradient(135deg, #2C2C2C, #4A4A4A);">
+                Ulang lagi juga boleh 🔄
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            
+            const progress = ((index + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            document.getElementById('currentSlide').textContent = index + 1;
+            
+            slides[index].style.animation = 'none';
+            setTimeout(() => {
+                slides[index].style.animation = 'slideIn 0.8s ease-out';
+            }, 10);
+
+            checkScrollableContent();
+            window.scrollTo(0, 0);
+        }
+
+        function checkScrollableContent() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const activeSlide = document.querySelector('.slide.active');
+            const slideContainer = document.querySelector('.slide-container');
+            
+            setTimeout(() => {
+                if (slideContainer.scrollHeight > window.innerHeight) {
+                    scrollIndicator.style.display = 'block';
+                } else {
+                    scrollIndicator.style.display = 'none';
+                }
+            }, 100);
+        }
+
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            if (window.scrollY > 50) {
+                scrollIndicator.style.display = 'none';
+            }
+            
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                checkScrollableContent();
+            }, 1000);
+        });
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                showSlide(currentSlideIndex);
+                createHeartBurst();
+            }
+        }
+
+        function restartSlides() {
+            currentSlideIndex = 0;
+            showSlide(currentSlideIndex);
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const targetDate = new Date('2025-09-20T04:27:00');
+            const timeDiff = targetDate - now;
+
+            if (timeDiff <= 0) {
+                document.getElementById('anniversary-message').style.display = 'block';
+                document.querySelector('.timer').style.display = 'none';
+                createCelebrationHearts();
+                return;
+            }
+
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        function createHeartBurst() {
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = ['🤍', '🖤', '💚', '✨', '🌙'][Math.floor(Math.random() * 5)];
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = Math.random() * 100 + 'vh';
+                    heart.style.fontSize = '2rem';
+                    heart.style.zIndex = '999';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.animation = `heartBurst 1.5s ease-out forwards`;
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 1500);
+                }, i * 100);
+            }
+        }
+
+        function createCelebrationHearts() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '🤍';
+                    heart.style.position = 'fixed';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.top = '100vh';
+                    heart.style.fontSize = (Math.random() * 15 + 25) + 'px';
+                    heart.style.zIndex = '999';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.animation = `floatUp ${4 + Math.random() * 2}s ease-out forwards`;
+                    
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 6000);
+                }, i * 200);
+            }
+        }
+
+        // --- New Script for Intro Animation ---
+        function createSparkles() {
+            const sparkleContainer = document.getElementById('sparkle-container');
+            const emojis = ['✨', '💖', '💫'];
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                sparkle.style.left = `${Math.random() * 100}vw`;
+                sparkle.style.top = `${Math.random() * 100}vh`;
+                sparkle.style.animationDelay = `${Math.random() * 3}s`;
+                sparkleContainer.appendChild(sparkle);
+            }
+        }
+
+        function hideIntroScreen() {
+            const introSlide = document.getElementById('introSlide');
+            introSlide.classList.add('hidden');
+            setTimeout(() => {
+                introSlide.style.display = 'none';
+            }, 1000); // Must be the same duration as the transition
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextSlide();
+            }
+            if (e.key === 'ArrowLeft' && currentSlideIndex > 0) {
+                currentSlideIndex--;
+                showSlide(currentSlideIndex);
+            }
+        });
+
+        // Initialize
+        createSparkles();
+        setTimeout(hideIntroScreen, 5000); // Hide the intro screen after 5 seconds
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        showSlide(0);
+        setTimeout(checkScrollableContent, 500);
+    </script>
+</body>
+</html>
